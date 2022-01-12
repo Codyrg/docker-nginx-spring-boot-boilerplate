@@ -3,8 +3,23 @@ version: '3.7'
 services:
   api:
     container_name: api
+    networks:
+      - net
     build: ./sample-api
     ports:
       - 8080:8080
-    expose:
-      - 8080
+
+  nginx:
+    container_name: nginx
+    networks:
+      - net
+    build: ./nginx/development
+    ports:
+      - 5000:5000
+    depends_on:
+      - web
+
+networks:
+  net:
+      name: net
+      driver: bridge
